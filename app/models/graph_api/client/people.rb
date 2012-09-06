@@ -28,6 +28,8 @@
 #
 # = app/models/graph_api/client/people.rb - People API用クラス
 #
+# *Reference* 
+#  http://developer.mixi.co.jp/connect/mixi_graph_api/mixi_io_spec_top/people-api/
 
 require_relative 'base'
 
