@@ -110,7 +110,8 @@ module GraphApi
       # (optional) options: Hash { params: Hash, header: Hash, body: String }
       # *Returns*:: JSONレスポンス: Hash
       def post(path, options={})
-        call_api(:post, path, options)
+        post_options = {headers: {'Content-Type' => 'application/json'}}.merge(options)
+        call_api(:post, path, post_options)
       end
 
       # mixi platformのエンドポイントに対してPUTを行う。
@@ -120,6 +121,7 @@ module GraphApi
       # (optional) options: Hash { params: Hash, header: Hash, body: String }
       # *Returns*:: JSONレスポンス: Hash 
       def put(path, options={})
+        put_options = {headers: {'Content-Type' => 'application/json'}}.merge(options)
         call_api(:put, path, options)
       end
 
