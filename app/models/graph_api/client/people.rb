@@ -82,6 +82,38 @@ module GraphApi
 	my_profile['entry']['id']
       end
 
+      # 友人の最新ステータスを取得する
+      # "r_profile_status"スコープについて認可されたアクセストークンが必要
+      # ---
+      # *Returns*:: JSONレスポンス: Hash
+      def recent_statuses
+        lookup_friends('@me', '@friends', {params: {fields: "status"}})
+      end
+
+      # 友人のログイン時間を取得する
+      # "r_profile_last_login"スコープについて認可されたアクセストークンが必要
+      # ---
+      # *Returns*:: JSONレスポンス: Hash
+      def lastLogins
+        lookup_friends('@me', '@friends', {params: {fields: "lastLogin"}})
+      end
+
+      # ユーザーハッシュを取得する
+      # "r_profile_last_login"スコープについて認可されたアクセストークンが必要
+      # ---
+      # *Returns*:: JSONレスポンス: Hash
+      def lastLogins
+        get(endpoint_myself(ENDPOINT_PREFIX), {params: {fields: "userHash"}})
+      end
+
+      # アプリを使っている友人一覧を取得
+      # "mixi_apps2”スコープについて認可されたアクセストークンが必要
+      # ---
+      # *Returns*:: JSONレスポンス: Hash
+      def lookup_my_app_friends
+        lookup_friends('@me', '@friends', {params: {filterBy: "hasApp"}})
+      end
+
     end #People
   end #Client
 end #GraphApi
