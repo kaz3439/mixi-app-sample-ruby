@@ -26,7 +26,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #
-# = app/models/graph_api/client/oauth.rb - Token取得用シングルトンクラス
+# = app/models/graph_api/client/oauth.rb - Token取得用クラスメソッド
 #
 
 require 'net/https'
@@ -54,10 +54,10 @@ module GraphApi
     # end
     #
     # #Authorizaiton Codeを使って新規にTokenを取得
-    # token = GraphApi::Client::OAuth.create_token('xxxxxxxxxxxxxxxxxxxxxxxxx')
+    # token = GraphApi::Client::OAuth.create_token('an_authorization_code')
     #
     # #Refresh Tokenを使ってAccess Tokenのリフレッシュ
-    # token = GraphApi::Client::OAuth.refresh_token('xxxxxxxxxxxxxxxxxxxxxxxxx')
+    # token = GraphApi::Client::OAuth.refresh_token('an_refresh_token')
     class OAuth
       include GraphApi::Client::Configure
 
@@ -93,7 +93,7 @@ module GraphApi
         if credentials?
           query_params = credentials.merge(params)
         else
-          return nil
+          raise GraphApi::Client::ConfigrationError, 'configuration error.'  
         end
         endpoint = URI::HTTP.build({host: HOST, path: PATH})
  
