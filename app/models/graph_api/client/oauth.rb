@@ -95,6 +95,7 @@ module GraphApi
         else
           raise GraphApi::Client::ConfigrationError, 'configuration error.'  
         end
+
         endpoint = URI::HTTP.build({host: HOST, path: PATH})
  
         req = Net::HTTP::Post.new(endpoint.request_uri)

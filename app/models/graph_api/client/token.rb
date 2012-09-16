@@ -49,13 +49,6 @@ require_relative 'oauth'
 class GraphApi::Client::Token < ActiveRecord::Base
   attr_accessible :access_token, :expires_in, :refresh_token, :user_id
   attr_accessor :oauth
-  after_initialize :after_initialize
-
-  # GraphApi::Client::OAuthのインスタンスを持つ
-  # ---
-  def after_initialize
-    @oauth = GraphApi::Client::OAuth.instance
-  end
 
   # Access Tokenが有効期限切れかどうかチェックする
   # ---
@@ -64,12 +57,17 @@ class GraphApi::Client::Token < ActiveRecord::Base
     (Time.now - self.updated_at) > expires_in
   end
 
+  def configure(option={})
+    GraphApi::Client::OAuth.keys.each do |key|
+      instance_variable_set("@#{key}", options[key] || Graph::Client::OAuth.instance_variable_get("@#{key}"))
+    end
+  end
   # Tokenを新規に取得する
   # ---
   # *Arguments*
   # (required) authorization_code: String
   def get!(authorization_code)
-    token_hash = @oauth.create_token(authorization_code)
+    token_hash = GraphApi::Client::OAuth.create_token(authorization_code)
     raise IOError, token_hash['error'] if token_hash.has_key? 'error'
     self.update_attributes!(access_token:  token_hash['access_token'],
                             refresh_token: token_hash['refresh_token'],
