@@ -1,10 +1,8 @@
 module GraphApi
   module Client
     module Configure
-
-      class << self
         attr_accessor :consumer_key, :consumer_secret, :redirect_url
-
+ 
         def keys
           @keys ||= [
             :consumer_key,
@@ -26,7 +24,9 @@ module GraphApi
           Hash[keys.map{|key| [key, instance_variable_get("@#{key}")]}]
         end
 
-      end
+        def self.included(mod)
+          mod.extend Configure
+        end
 
     end #Configure
   end #Client
