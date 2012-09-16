@@ -32,7 +32,7 @@
 require 'net/https'
 require 'uri'
 require 'json'
-require 'singleton'
+require_relative 'configure'
 
 module GraphApi
   module Client
@@ -47,30 +47,21 @@ module GraphApi
     # = USAGE
     #
     # #GraphApi::Client::OAuthのインスタンスを作成して、必要な値をセットする
-    # oauth = GraphApi::Client::OAuth.instance
-    # oatuh.set!( 'a_consumer_key', 'a_consumer_secret', 'a_redirect_uri')
+    # GraphApi::Client::OAuth.configure do |config|
+    #   config.consumer_key    = "a_consumer_key" 
+    #   config.consumer_secret = "a_consumer_secret" 
+    #   config.redirect_url    = "a_redirect_url" 
+    # end
     #
     # #Authorizaiton Codeを使って新規にTokenを取得
-    # token = oauth.create_token('xxxxxxxxxxxxxxxxxxxxxxxxx')
+    # token = GraphApi::Client::OAuth.create_token('xxxxxxxxxxxxxxxxxxxxxxxxx')
     #
     # #Refresh Tokenを使ってAccess Tokenのリフレッシュ
-    # token = oauth.refresh_token('xxxxxxxxxxxxxxxxxxxxxxxxx')
+    # token = GraphApi::Client::OAuth.refresh_token('xxxxxxxxxxxxxxxxxxxxxxxxx')
     class OAuth
-      include Singleton
+      include GraphApi::Client::Configure
 
-      # Token取得に必要な値をセットする
-      # ---
-      # *Arguments*
-      # (required) consumer_key: String
-      # (required) consumer_secret: String
-      # (required) redirect_uri: String
-      def set!(consumer_key, consumer_secret, redirect_uri)
-        @consumer_key = consumer_key
-        @consumer_secret = consumer_secret
-        @redirect_uri = redirect_uri
-        self
-      end
-
+    class << self
       # Authorization Codeからアクセストークンを取得する
       # ---
       # *Arguments*
@@ -93,16 +84,17 @@ module GraphApi
         get_token(query_params)
       end
 
-      private
       # token取得のためのHTTPリクエストを叩く
       # ---
       # *Arguments*
       # (required) refresh_toekn: String 
       # *Returns*:: JSONレスポンス: Hash
       def get_token(params={})
-        query_params = {client_id:     @consumer_key,
-                        client_secret: @consumer_secret,
-                        redirect_uri:  @redirect_uri}.merge(params)
+        if credentials?
+          query_params = credentials.merge(params)
+        else
+          return nil
+        end
         endpoint = URI::HTTP.build({host: HOST, path: PATH})
  
         req = Net::HTTP::Post.new(endpoint.request_uri)
@@ -112,6 +104,9 @@ module GraphApi
           res = https.request(req)
           res_body = JSON.parse(res.body)
       end
+    end
+
+    private_class_method :get_token
 
     end #OAuth
   end #Client
