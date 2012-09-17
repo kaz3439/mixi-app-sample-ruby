@@ -41,6 +41,10 @@ require_relative 'oauth'
 # = USAGE
 # #tokenを新規に取得する
 # token.GraphApi::Client::Token.create_by_user_id("gedafeg")
+# token.configure({"consumer_key"    => "a_consumer_key", 
+#                  "consumer_secret" => "a_consumer_secret",
+#                  "redirect_url"    => "a_redirect_url"
+#                 })
 # token.get!
 #
 # #tokenが有効期限切れだった場合リフレッシュする
