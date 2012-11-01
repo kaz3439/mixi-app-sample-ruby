@@ -88,7 +88,7 @@ module GraphApi
       # ---
       # *Arguments*
       # (required) title: String
-      # (required) members: String (User IDs)
+      # (required) members: Array (User IDs)
       # *Returns*:: JSONレスポンス: Hash
       def create_a_group(title, members=[])
         endpoint = "#{ENDPOINT_PREFIX}/#{ME}"
