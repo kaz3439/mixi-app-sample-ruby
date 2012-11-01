@@ -122,7 +122,7 @@ module GraphApi
       # *Returns*:: JSONレスポンス: Hash 
       def put(path, options={})
         put_options = {headers: {'Content-Type' => 'application/json'}}.merge(options)
-        call_api(:put, path, options)
+        call_api(:put, path, put_options)
       end
 
       # mixi platformのエンドポイントに対してGETを行う。

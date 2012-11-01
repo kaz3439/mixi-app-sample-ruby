@@ -48,13 +48,13 @@ describe GraphApi::Client::Base do
 
   it 'should call post method' do
     mock_response = {status: '200 ok'}
-    @api_client.should_receive(:call_api).with(:post, '/test/test', {}).and_return(mock_response)
+    @api_client.should_receive(:call_api).with(:post, '/test/test', {:headers=>{"Content-Type"=>"application/json"}}).and_return(mock_response)
     @api_client.post('/test/test').should == mock_response
   end
 
   it 'should call put method' do
     mock_response = {status: '200 ok'}
-    @api_client.should_receive(:call_api).with(:put, '/test/test', {}).and_return(mock_response)
+    @api_client.should_receive(:call_api).with(:put, '/test/test', {:headers=>{"Content-Type"=>"application/json"}}).and_return(mock_response)
     @api_client.put('/test/test').should == mock_response
   end
 
