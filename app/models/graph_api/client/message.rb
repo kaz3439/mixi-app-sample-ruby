@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 # Copyright (c) 2012, mixi, Inc.
 # All rights reserved.
 #
@@ -36,7 +38,7 @@ module GraphApi
     #
     #
     # = Description
-    # People APIを叩くためのクラス
+    # Message APIを叩くためのクラス
     #
     # = USAGE
     # #ユーザのTokenを渡して初期化する
@@ -54,7 +56,7 @@ module GraphApi
       ENDPOINT_PREFIX = '/2/messages'
       
       attr_reader :inbox, :outbox, :noticebox
-      # 送信済みBOXnおendpointを返す
+      # 送信済みBOXをendpointを返す
       # ---
       # *Returns*:: JSONレスポンス: Hash
       def outbox 
