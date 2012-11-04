@@ -114,6 +114,14 @@ module GraphApi
         lookup_friends('@me', '@friends', {params: {filterBy: "hasApp"}})
       end
 
+      # 指定したmixiページを使っている友人一覧を取得
+      # "mixi_apps2”スコープについて認可されたアクセストークンが必要
+      # ---
+      # *Returns*:: JSONレスポンス: Hash
+      def lookup_friends_following_page(page_id)
+        lookup_friends('@me', '@friends', {params: {filterBy: "pageId", filterValue: page_id}})
+      end
+
     end #People
   end #Client
 end #GraphApi

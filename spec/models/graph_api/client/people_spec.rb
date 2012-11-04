@@ -47,15 +47,46 @@ describe GraphApi::Client::People do
     @people.lookup_my_friends.should == mock_response
   end
 
-  it 'should call get_my_friends' do
+  it 'should call get_my_profile' do
     mock_response = {status: "200 ok"}
     @people.should_receive(:get_my_profile).and_return(mock_response)
     @people.get_my_profile.should == mock_response
   end
 
-  it 'should call my_user_profile' do
+  it 'should call my_user_id' do
     mock_response = {'entry' => {'id' => 1111}}
     @people.should_receive(:get_my_profile).and_return(mock_response)
     @people.my_user_id.should == 1111
   end
+
+  it 'should call recent_statuses' do
+    mock_response = {status: "200 ok"}
+    @people.should_receive(:recent_statuses).and_return(mock_response)
+    @people.recent_statuses.should == mock_response
+  end
+
+  it 'should call last_logins' do
+    mock_response = {status: "200 ok"}
+    @people.should_receive(:last_logins).and_return(mock_response)
+    @people.last_logins.should == mock_response
+  end
+
+  it 'should call user_hash' do
+    mock_response = {status: "200 ok"}
+    @people.should_receive(:user_hash).and_return(mock_response)
+    @people.user_hash.should == mock_response
+  end
+
+  it 'should call lookup_my_app_friends' do
+    mock_response = {status: "200 ok"}
+    @people.should_receive(:lookup_my_app_friends).and_return(mock_response)
+    @people.lookup_my_app_friends.should == mock_response
+  end
+
+  it 'should call lookup_friends_following_page' do
+    mock_response = {status: "200 ok"}
+    @people.should_receive(:lookup_friends_following_page).and_return(mock_response)
+    @people.lookup_friends_following_page.should == mock_response
+  end
 end
+
